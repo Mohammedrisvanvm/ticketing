@@ -19,13 +19,8 @@ app.use(signUpRouter);
 // });""
 
 
-function delay(ms:number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 
 app.use(async (req, res, next) => {
-  await delay(3000);
   next(new NotFoundError());
 });
 
