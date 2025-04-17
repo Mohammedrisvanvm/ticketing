@@ -4,6 +4,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { signUpRouter } from "./routes/signup";
 import { errorHandler } from "./middleware/error-handler";
 import { NotFoundError } from "./error/not-found-error";
+import connectDB from "./db/db-connect";
 
 const app = express();
 
@@ -38,5 +39,7 @@ app.use(
     errorHandler(err, req, res, next);
   }
 );
+
+connectDB()
 
 app.listen(3000, () => console.log("listen on 3000!!!!"));
