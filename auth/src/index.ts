@@ -12,12 +12,21 @@ app.use(json());
 app.use(currentUserRouter);
 app.use(signUpRouter);
 
-
-
 // This is a test to see if the error handler works
 // app.get('*', () => {
 //   throw new NotFoundError();
-// });
+// });""
+
+
+function delay(ms:number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+app.use(async (req, res, next) => {
+  await delay(3000);
+  next(new NotFoundError());
+});
 
 app.use(
   (
