@@ -7,6 +7,7 @@ import { errorHandler } from "./middleware/error-handler";
 import { NotFoundError } from "./error/not-found-error";
 import connectDB from "./db/db-connect";
 import { signInRouter } from "./routes/signin";
+import { signOutRouter } from "./routes/signout";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieSession({ signed: false, secure: true })); // Set secure to true i
 app.use(currentUserRouter);
 app.use(signUpRouter);
 app.use(signInRouter);
+app.use(signOutRouter);
 
 // This is a test to see if the error handler works
 // app.get('*', () => {
