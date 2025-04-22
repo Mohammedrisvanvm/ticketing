@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType } from "mongoose";
+import mongoose from "mongoose";
 import { Password } from "../service/password";
 
 interface UserAttrs {
@@ -55,3 +55,4 @@ userSchema.statics.build = (attrs: UserAttrs) => {
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
 export { User };
+

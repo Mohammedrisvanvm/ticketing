@@ -1,21 +1,18 @@
 import Express, { Request, Response } from "express";
-import Jwt from "jsonwebtoken";
-import { BadRequestError } from "../error/bad-request-error";
+import { requireAuth } from "../middleware/require-auth";
+import { sessionUser } from "../middleware/session-user";
 
 const router = Express.Router();
 
-router.get("/api/users/currentuser", (req: Request, res: Response) => {
-  if (!req.session?.jwt) {
-    throw new BadRequestError("No JWT found in session");
+router.get(
+  "/api/users/currentuser",
+  sessionUser,requireAuth,
+  (req: Request, res: Response) => {
+    res.send({
+      currentUser: req.currentUser || null,
+    });
   }
-
-  try {
-    const payload = Jwt.verify(req.session?.jwt, process.env.JWT_KEY!);
-    res.send({ currentUser: payload });
-  } catch (err) {
-    res.send({ currentUser: null });
-  }
-});
+);
 
 export { router as currentUserRouter };
 // export default currentUserRouter;
