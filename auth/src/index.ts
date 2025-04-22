@@ -1,11 +1,12 @@
 import express from "express";
 import { json } from "body-parser";
+import cookieSession from "cookie-session";
 import { currentUserRouter } from "./routes/current-user";
 import { signUpRouter } from "./routes/signup";
 import { errorHandler } from "./middleware/error-handler";
 import { NotFoundError } from "./error/not-found-error";
 import connectDB from "./db/db-connect";
-import cookieSession from "cookie-session";
+import { signInRouter } from "./routes/signin";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cookieSession({ signed: false, secure: true })); // Set secure to true i
 
 app.use(currentUserRouter);
 app.use(signUpRouter);
+app.use(signInRouter);
 
 // This is a test to see if the error handler works
 // app.get('*', () => {
