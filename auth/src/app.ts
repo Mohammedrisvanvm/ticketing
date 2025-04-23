@@ -13,13 +13,14 @@ const app = express();
 
 app.set("trust proxy", true); // trust first proxy
 app.use(json());
-app.use(cookieSession({ signed: false, secure: true })); // Set secure to true in production
+app.use(
+  cookieSession({ signed: false, secure: process.env.NODE_ENV !== "test" })
+); // Set secure to true in production
 
 app.use(currentUserRouter);
 app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
-
 
 app.use(async (req, res, next) => {
   next(new NotFoundError());
@@ -35,7 +36,5 @@ app.use(
     errorHandler(err, req, res, next);
   }
 );
-
-
 
 export { app };
