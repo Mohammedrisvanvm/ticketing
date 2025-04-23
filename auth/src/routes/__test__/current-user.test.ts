@@ -2,18 +2,8 @@ import request from "supertest";
 import { app } from "../../app";
 
 it("returns details about the current user", async () => {
-  const signupResponse = await request(app)
-    .post("/api/users/signup")
-    .send({
-      email: "risvan@gmail.com",
-      password: "123456",
-    })
-    .expect(201);
+  const cookie = await signin();
 
-  const cookie = signupResponse.get("Set-Cookie");
-  if (!cookie) {
-    throw new Error("Cookie not set after signup");
-  }
   const response = await request(app)
     .get("/api/users/currentuser")
     .set("Cookie", cookie)
@@ -21,4 +11,12 @@ it("returns details about the current user", async () => {
     .expect(200);
 
   expect(response.body.currentUser.email).toEqual("risvan@gmail.com");
+});
+
+it("returns null if not authenticated", async () => {
+  const response = await request(app)
+    .get("/api/users/currentuser")
+    .send()
+    .expect(401);
+  expect(response.body).toEqual({ errors: [{ message: "Not authorized" }] });
 });
