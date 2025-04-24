@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import { currentUserRouter } from "./routes/current-user";
@@ -22,7 +22,7 @@ app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
 
-app.use(async (req, res, next) => {
+app.use(async (req:Request, res:Response, next:NextFunction) => {
   next(new NotFoundError());
 });
 
