@@ -4,7 +4,7 @@ import { useRequest } from "../../hooks/use-request";
 export default () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const { doRequest, errors } = useRequest({
     url: "/api/users/signup",
     method: "post",
@@ -13,14 +13,14 @@ export default () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-  
+    setLoading(true);
     try {
       setTimeout(() => {
         doRequest();
-      
+        setLoading(false);
       }, 2000);
     } catch (err) {
-        console.log(err);
+      setLoading(false);
     }
   };
   return (
@@ -45,7 +45,7 @@ export default () => {
         />
       </div>
       {errors}
-   
+      {loading && <div className="alert alert-info">Loading...</div>}
       <button className="btn btn-primary">Sign Up</button>
     </form>
   );
