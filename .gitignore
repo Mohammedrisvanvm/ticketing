@@ -1,4 +1,5 @@
 auth/node_modules
 client/node_modules
+clientjs/node_modules
 
 //kubectl create secret generic jwt-secret --from-literal={key}={value}
