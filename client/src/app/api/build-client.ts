@@ -1,17 +1,38 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { cookies, headers } from "next/headers";
 
-export const axiosBase = () => {
-  // We must be on the browser
-  return axios.create({
-    baseURL: "/",
-  });
-};
-
-export const getCurrentUser = async () => {
+export interface CurrentUser {
+  id: string;
+  email: string;
+  iat: number;
+}
+export async function getCurrentUser() {
   try {
-    const { data } = await axiosBase().get("/api/users/currentuser");
+    const header = await headers();
+    const headersObject: Record<string, string> = {};
+    header.forEach((value, key) => {
+      headersObject[key] = value;
+    });
+
+    const { data } = await axios.get(
+      "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
+
+      {
+        headers: headersObject,
+      }
+    );
+
     return data.currentUser;
-  } catch (error) {
-    console.log(error, "error");
+  } catch (err) {
+    const error = err as AxiosError;
+
+    if (error.response) {
+      (error.response.data as { errors: { message: string }[] }).errors.forEach(
+        (err: any) => {
+          console.log(err.message, "Error fetching current user");
+        }
+      );
+    }
+    return null;
   }
-};
+}
