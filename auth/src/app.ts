@@ -21,7 +21,7 @@ app.use(signUpRouter);
 app.use(signInRouter);
 app.use(signOutRouter);
 
-app.use(async (req:Request, res:Response, next:NextFunction) => {
+app.use(async (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError());
 });
 
