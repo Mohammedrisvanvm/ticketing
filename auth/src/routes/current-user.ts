@@ -1,6 +1,5 @@
+import { requireAuth, sessionUser } from "@risvantickets/common";
 import Express, { Request, Response } from "express";
-import { requireAuth } from "../middleware/require-auth";
-import { sessionUser } from "../middleware/session-user";
 
 const router = Express.Router();
 

@@ -1,10 +1,9 @@
-import express, { NextFunction, Request, Response } from "express";
+import { errorHandler, NotFoundError } from "@risvantickets/common";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
+import express, { NextFunction, Request, Response } from "express";
 import { currentUserRouter } from "./routes/current-user";
 import { signUpRouter } from "./routes/signup";
-import { errorHandler } from "./middleware/error-handler";
-import { NotFoundError } from "./error/not-found-error";
 
 import { signInRouter } from "./routes/signin";
 import { signOutRouter } from "./routes/signout";
@@ -38,3 +37,4 @@ app.use(
 );
 
 export { app };
+
