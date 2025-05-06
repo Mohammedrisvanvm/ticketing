@@ -24,15 +24,6 @@ export async function getCurrentUser() {
 
     return data.currentUser;
   } catch (err) {
-    const error = err as AxiosError;
-
-    if (error.response) {
-      (error.response.data as { errors: { message: string }[] }).errors.forEach(
-        (err: any) => {
-          console.log(err.message, "Error fetching current user");
-        }
-      );
-    }
     return null;
   }
 }

@@ -1,10 +1,33 @@
+"use client";
+import axios from "axios";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function Header({ email }: { email: string | undefined }) {
+interface User {
+  id: string;
+  email: string;
+  iat: number;
+}
+
+export default function Header() {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const { data } = await axios.get("/api/users/currentuser");
+
+      setCurrentUser(data.currentUser?.email || null);
+    }
+
+    fetchUser();
+  }, []);
+  console.log(currentUser);
+  
+
   const links = [
-    !email && { href: "/auth/signin", label: "Sign In" },
-    !email && { href: "/auth/signup", label: "Sign Up" },
-    email && { href: "/auth/signout", label: "Sign Out" },
+    !currentUser && { href: "/auth/signin", label: "Sign In" },
+    !currentUser && { href: "/auth/signup", label: "Sign Up" },
+    currentUser && { href: "/auth/signout", label: "Sign Out" },
   ].filter(Boolean) as { href: string; label: string }[];
 
   const linkItems = links.map(({ href, label }) => (

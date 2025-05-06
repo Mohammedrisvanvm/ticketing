@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body data-new-gr-c-s-check-loaded="14.1232.0" data-gr-ext-installed="">
-        <Header email={currentUser?.email} />
+        <Header />
         {children}
       </body>
     </html>

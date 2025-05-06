@@ -29,7 +29,7 @@ export const useRequest = ({
       return response.data;
     } catch (error) {
       const err = error as AxiosError<{ errors: { message: string }[] }>;
-      console.log(err.response?.data?.errors,"8979");
+      console.log(err.response?.data);
       
       setErrors(
         <div className="alert alert-danger">
