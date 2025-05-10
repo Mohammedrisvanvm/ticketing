@@ -16,16 +16,16 @@ build:
         manual:
           - src: "src/**.*.ts"
             dest: .
-    - image: mohammedrisvanvm/client
-      context: client
+    - image: mohammedrisvanvm/tickets
+      context: tickets
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**.*.ts"
             dest: .
-    - image: mohammedrisvanvm/tickets
-      context: tickets
+    - image: mohammedrisvanvm/client
+      context: client
       docker:
         dockerfile: Dockerfile
       sync:
