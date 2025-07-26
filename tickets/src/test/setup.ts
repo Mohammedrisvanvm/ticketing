@@ -2,12 +2,13 @@ import Jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 
+
 declare global {
   var signin: () => string[];
 }
 
 let mongo: any;
-
+jest.mock("../nats/nats-wrapper");
 beforeAll(async () => {
   process.env.JWT_KEY = "test";
   mongo = await MongoMemoryServer.create();

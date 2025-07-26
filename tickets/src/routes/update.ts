@@ -24,19 +24,21 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    
     const { title, price } = req.body;
+    
     const ticket = await Ticket.findById(req.params.id);
-    console.log(ticket);
 
     if (!ticket) {
       throw new NotFoundError();
     }
+    
     if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
     ticket.set({ title, price });
     await ticket.save();
-    new TicketUpdatedPublisher(natsWrapper.client).publish({
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,

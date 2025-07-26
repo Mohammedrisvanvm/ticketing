@@ -1,6 +1,8 @@
 import Request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from "../../nats/nats-wrapper";
+
 
 it("it has a route handler listening to /api/tickets for post requests", async () => {
   const response = await Request(app).post("/api/tickets").send({});
@@ -41,18 +43,27 @@ it("returns invalid input if the title or price is missing", async () => {
     .expect(400);
 });
 
-// it("creates a ticket with valid inputs", async () => {
-//     let tickets = await Ticket.find({});
-//     expect(tickets.length).toEqual(0);
-//     const title = "awerwe";
-//     const price = 20;
-//     await Request(app)
-//         .post("/api/tickets")
-//         .set("Cookie", global.signin())
-//         .send({ title, price })
-//         .expect(200);
-//     tickets = await Ticket.find({});
-//     expect(tickets.length).toEqual(1);
-//     expect(tickets[0].price).toEqual(price);
-//     expect(tickets[0].title).toEqual(title);
-// });
+it("creates a ticket with valid inputs", async () => {
+    let tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(0);
+    const title = "1234";
+    const price = 20;
+  
+    
+    await Request(app)
+        .post("/api/tickets")
+        .set("Cookie", global.signin())
+        .send({ title, price })
+        .expect(201);
+    tickets = await Ticket.find({});
+    expect(tickets.length).toEqual(1);
+    expect(tickets[0].price).toEqual(price);
+    expect(tickets[0].title).toEqual(title);
+});
+
+it("wrapper test", async () => {
+ 
+      console.log(natsWrapper.client.publish)                                                          
+                                                              
+
+})

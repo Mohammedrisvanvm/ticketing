@@ -9,13 +9,15 @@ it("returns a 404 if the route does not exist", async () => {
 it("return ticket if the ticket is found", async () => {
   const title = "awerwe";
   const price = 20;
+  
   const response = await Request(app)
     .post("/api/tickets")
     .set("Cookie", global.signin())
     .send({ title, price })
     .expect(201);
+ 
   const ticketResponse = await Request(app)
-    .get(`/api/tickets/${response.body.id}`)
+    .get(`/api/tickets/${response.body._id}`)
     .send()
     .expect(200);
 
