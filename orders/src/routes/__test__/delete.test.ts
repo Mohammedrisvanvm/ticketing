@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 
-it("fetches orders for a user", async () => {
+
+it("marks an order as cancelled", async () => {
   // Create a ticket
   const ticket = Ticket.build({
     title: "Concert",
@@ -20,13 +21,21 @@ it("fetches orders for a user", async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 
-  // Fetch orders for the user
-  const { body: fetchorder } = await request(app)
+
+    
+  // Cancel the order
+  await request(app)
+    .delete(`/api/orders/${order._id}`)
+    .set("Cookie", user)
+    .send()
+    .expect(204);
+
+  // Check that the order is cancelled
+  const fetchedOrder = await request(app)
     .get(`/api/orders/${order._id}`)
     .set("Cookie", user)
     .send()
     .expect(200);
 
-  // Expect to get the order we just created
-  expect(fetchorder.id).toEqual(order.id);
+  expect(fetchedOrder.body.status).toEqual("cancelled");
 });
