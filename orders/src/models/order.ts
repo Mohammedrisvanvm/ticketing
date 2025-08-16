@@ -2,7 +2,7 @@ import { orderStatus } from "@risvantickets/common";
 import mongoose from "mongoose";
 import { TicketDoc } from "./ticket";
 
-
+export {orderStatus}
 interface OrderAttrs {
     userId: string;
     status: orderStatus;
@@ -58,4 +58,4 @@ orderSchema.statics.build = (attrs: OrderAttrs) => {
 };
 
 
-const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
+export const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
