@@ -6,10 +6,11 @@ import {
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import express, { NextFunction, Request, Response } from "express";
-import { createTicketRouter } from "./routes/new";
-import { showTicketRouter } from "./routes/show";
-import { indexTicketRouter } from "./routes";
-import { updateTicketRouter } from "./routes/update";
+import { newOrderRouter } from "./routes/new";
+import { showOrderRouter } from "./routes/show";
+import { indexOrderRouter } from "./routes";
+import { deleteOrderRouter } from "./routes/delete";
+
 
 const app = express();
 
@@ -20,10 +21,10 @@ app.use(
 ); // Set secure to true in production
 app.use(sessionUser);
 
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(indexTicketRouter);
-app.use(updateTicketRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
+app.use(indexOrderRouter);
+app.use(deleteOrderRouter);
 
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError());
