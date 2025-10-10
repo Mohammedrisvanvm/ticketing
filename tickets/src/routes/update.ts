@@ -1,4 +1,5 @@
 import {
+  BadRequestError,
   NotAuthorizedError,
   NotFoundError,
   requireAuth,
@@ -7,9 +8,9 @@ import {
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 
+import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { Ticket } from "../models/ticket";
 import { natsWrapper } from "../nats/nats-wrapper";
-import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 
 const router = express.Router();
 
@@ -24,15 +25,18 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    
     const { title, price } = req.body;
-    
+
     const ticket = await Ticket.findById(req.params.id);
 
     if (!ticket) {
       throw new NotFoundError();
     }
-    
+
+    if (ticket.orderId) {
+      throw new BadRequestError("Ticket is reserved and cannot be edited");
+    }
+
     if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
