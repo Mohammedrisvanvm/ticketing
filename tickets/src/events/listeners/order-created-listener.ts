@@ -1,0 +1,11 @@
+import { Listener, OrderCreatedEvent, Subjects } from "@risvantickets/common";
+import { Message } from "node-nats-streaming";
+
+export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
+  subject: Subjects.OrderCreated = Subjects.OrderCreated;
+  queueGroupName = "tickets-service";
+  async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
+    console.log("Event data!", data);
+    msg.ack();
+  }
+}
