@@ -1,9 +1,7 @@
-
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/ticket";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 import { Listener, OrderCreatedEvent, Subjects } from "@risvantickets/common";
-
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -23,8 +21,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       userId: ticket.userId,
       orderId: ticket.orderId,
       version: ticket.version,
-    })
-    console.log("Event data!", data);
+    });
     msg.ack();
   }
 }
