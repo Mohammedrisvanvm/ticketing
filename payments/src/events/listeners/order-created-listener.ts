@@ -18,7 +18,6 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
             version:data.version,
         });
         await order.save();
-        console.log("Order created event data:", data);
         msg.ack();
     }
 }
