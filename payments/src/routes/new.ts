@@ -10,6 +10,7 @@ import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import { Order } from "../models/order";
 import { stripeClient } from "../config/stripe";
+import { Payment } from "../models/payment";
 
 const router = Router();
 
@@ -35,12 +36,19 @@ router.post(
       throw new BadRequestError("Cannot pay for a cancelled order");
     }
 
-    await stripeClient.paymentIntents.create({
+    const stripe = await stripeClient.paymentIntents.create({
       amount: order.price * 100,
       currency: "usd",
       payment_method: token,
       // confirm: true, // Uncomment if you want to confirm the payment immediately
+      // https://docs.stripe.com/api/payment_intents/list
     });
+
+    const payment = Payment.build({
+      orderId: order.id,
+      stripeId: stripe.id,
+    });
+    await payment.save();
 
     res.status(201).send({ success: true });
   }
