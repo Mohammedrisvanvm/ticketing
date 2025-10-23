@@ -3,6 +3,10 @@ import { app } from "../../app";
 import mongoose from "mongoose";
 import { Order } from "../../models/order";
 import { orderStatus } from "@risvantickets/common";
+import { stripeClient } from "../../config/stripe";
+import { log } from "console";
+
+jest.mock("../../config/stripe");
 
 it("returns 404 when purchasing an order that does not exist", async () => {
   await request(app)
@@ -56,4 +60,30 @@ it("returns 400 when purchasing a cancelled order", async () => {
 });
 
 // Add more tests as needed, e.g., for successful payment processing
-it("returns 201 with valid inputs", async () => {});
+it("returns 201 with valid inputs", async () => {
+  const userId = new mongoose.Types.ObjectId().toHexString();
+  const order = Order.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
+    userId,
+    version: 0,
+    price: 20,
+    status: orderStatus.Created,
+  });
+  await order.save();
+
+  await request(app)
+    .post("/api/payments")
+    .set("Cookie", global.signin(userId))
+    .send({
+      token: "pm_card_visa",
+      orderId: order.id,
+    })
+    .expect(201);
+
+  const chargeOptions = (stripeClient.paymentIntents.create as jest.Mock).mock
+    .calls[0][0];
+
+  expect(chargeOptions.payment_method).toEqual("pm_card_visa");
+  expect(chargeOptions.amount).toEqual(20 * 100);
+  expect(chargeOptions.currency).toEqual("usd");
+});
