@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <nav className="w-full flex items-center justify-between border-b border-gray-300 pb-4">
       {/* left */}
-      <Link href="/" className="flex items-center">
+      <Link href="/" className="flex items-center gap-1">
         {" "}
         <Image
           src="/ticketing-logo.png"
