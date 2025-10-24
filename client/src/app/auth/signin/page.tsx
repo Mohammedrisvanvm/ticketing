@@ -11,7 +11,7 @@ export default function Signin() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { doRequest, errors } = useRequest({
+  const { doRequest } = useRequest({
     url: "/api/users/signin",
     method: "post",
     body: { email, password },

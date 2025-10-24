@@ -5,7 +5,8 @@ interface UseRequestProps {
   url: string;
   method: "get" | "post" | "put" | "delete";
   body?: object;
-  onSuccess:Function
+ 
+  onSuccess: (data: unknown) => void;
 }
 
 export const useRequest = ({

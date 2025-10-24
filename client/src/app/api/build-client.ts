@@ -1,5 +1,5 @@
-import axios, { AxiosError } from "axios";
-import { cookies, headers } from "next/headers";
+import axios from "axios";
+import { headers } from "next/headers";
 
 export interface CurrentUser {
   id: string;
@@ -24,6 +24,7 @@ export async function getCurrentUser() {
 
     return data.currentUser;
   } catch (err) {
+    console.log("Error fetching current user:", err);
     return null;
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useRequest } from "@/app/hooks/use-request";
 import { useRouter } from "next/navigation";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function SignOut() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function SignOut() {
   });
   useEffect(() => {
     doRequest();
-  }, []);
+  }, [doRequest]);
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-3xl font-bold mb-4">You have been signed out</h1>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getCurrentUser } from "./api/build-client";
+// import { getCurrentUser } from "./api/build-client";
 import Header from "./components/header";
 import "./globals.css";
 
@@ -13,7 +13,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currentUser = await getCurrentUser();
+  // const currentUser = await getCurrentUser();
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
