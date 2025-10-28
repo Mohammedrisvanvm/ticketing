@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
 
@@ -40,10 +41,20 @@ const demoProducts: DemoProductType[] = [
   },
 ];
 
-const ProductList = () => {
+const ProductList = ({ category }: { category: string }) => {
   return (
     <div className="w-full">
       <Categories />
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12">
+        {demoProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+      <Link href={category ? `/products?category=${category}` : "/products"}>
+        <div className="flex justify-end mt-4 underline text-sm text-gray-500">
+          View All Products
+        </div>
+      </Link>
     </div>
   );
 };

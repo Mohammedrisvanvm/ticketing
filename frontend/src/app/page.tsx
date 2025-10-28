@@ -1,11 +1,18 @@
 import Banner from "@/components/Banner";
 import ProductList from "@/components/ProductList";
 
-export default function Home() {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ category: string }>;
+}) => {
+  const { category } = await searchParams;
   return (
     <div className="">
       <Banner />
-      <ProductList />
+      <ProductList category={category} />
     </div>
   );
-}
+};
+
+export default Home;
