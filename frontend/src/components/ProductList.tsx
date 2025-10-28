@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
+import Filter from "./Filter";
 
 export interface DemoProductType {
   id: string;
@@ -41,10 +42,18 @@ const demoProducts: DemoProductType[] = [
   },
 ];
 
-const ProductList = ({ category }: { category: string }) => {
+const ProductList = ({
+  category,
+  params,
+}: {
+  category: string;
+  params: "homepage" | "product";
+}) => {
   return (
     <div className="w-full">
       <Categories />
+      {params === "product" && <Filter />}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12">
         {demoProducts.map((product) => (
           <ProductCard key={product.id} product={product} />

@@ -1,7 +1,6 @@
-import Banner from "@/components/Banner";
 import ProductList from "@/components/ProductList";
 
-const Home = async ({
+const productPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ category: string }>;
@@ -9,10 +8,9 @@ const Home = async ({
   const { category } = await searchParams;
   return (
     <div className="">
-      <Banner />
-      <ProductList category={category} params="homepage" />
+      <ProductList category={category} params="product" />
     </div>
   );
 };
 
-export default Home;
+export default productPage;
