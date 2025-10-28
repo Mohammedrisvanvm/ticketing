@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./SearchBar";
+import ShoppingCartIcon from "./ShoppingCartIcon";
 
 const Navbar = () => {
   return (
@@ -40,13 +41,7 @@ const Navbar = () => {
           height={20}
           className="w-4 h-4 text-grey-600"
         />
-        <Image
-          src="/shopping-cart-icon.png"
-          alt="shopping-cart"
-          width={20}
-          height={20}
-          className="w-4 h-4 text-grey-600"
-        />
+        <ShoppingCartIcon />
 
         <Link href="/login">sign in</Link>
       </div>
