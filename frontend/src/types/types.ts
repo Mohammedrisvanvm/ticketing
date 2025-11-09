@@ -21,3 +21,25 @@ export const shippingFormSchema = z.object({
 });
 
 export type ShippingFormInputs = z.infer<typeof shippingFormSchema>;
+
+export const paymentFormSchema = z.object({
+  cardHolder: z.string().min(2, "hard Holder must be at least 2 characters"),
+  cardNumber: z
+    .string()
+    .min(16, "Card Number must be 16 characters")
+    .max(16, "Card Number must be 16 characters")
+    .regex(/^\d+$/, "Card Number must contain only digits"),
+  expirationDate: z
+    .string()
+    .regex(
+      /^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
+      "Expiration Date must be in MM/YY format"
+    ),
+  cvv: z
+    .string()
+    .min(3, "CVV must be at least 3 characters")
+    .max(4, "CVV must be at most 4 characters")
+    .regex(/^\d+$/, "CVV must contain only digits"),
+});
+
+export type paymentFormInputs = z.infer<typeof paymentFormSchema>;

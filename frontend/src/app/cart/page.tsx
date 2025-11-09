@@ -33,7 +33,6 @@ const CartPage = () => {
   const activeStep = parseInt(searchParams.get("step") || "1");
   const [shippingForm, setShippingForm] = useState(null);
   function removeFromCart(itemToRemove: (typeof cartItems)[0]) {
-    // Logic to remove item from cart
     console.log("Removing item:", itemToRemove);
   }
   return (
