@@ -3,12 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { set } from "zod";
 
 const ShippingForm = ({
   setShippingForm,
 }: {
-  setShippingForm: (data: ShippingFormInputs) => void;
+  setShippingForm?: (data: ShippingFormInputs) => void;
 }) => {
   const {
     register,
@@ -19,7 +18,7 @@ const ShippingForm = ({
   });
   const router = useRouter();
   const handleShippingForm = (data: ShippingFormInputs) => {
-    setShippingForm(data);
+    setShippingForm ? setShippingForm(data) : "";
     router.push("/cart?step=3", { scroll: false });
   };
   return (
