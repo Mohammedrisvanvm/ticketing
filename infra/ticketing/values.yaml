@@ -159,3 +159,20 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+auth:
+  replicaCount: 1
+
+  image:
+    repository: mohammedrisvanvm/auth
+    tag: latest
+
+  mongoUri: "mongodb://ticketing-auth-mongo-srv:27017/auth"
+
+authMongo:
+  replicaCount: 1
+
+  image:
+    repository: mongo
+    tag: latest

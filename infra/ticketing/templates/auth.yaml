@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-auth
+  labels:
+    app: auth
+    {{- include "ticketing.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.auth.replicaCount }}
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+        {{- include "ticketing.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: auth
+          image: "{{ .Values.auth.image.repository }}:{{ .Values.auth.image.tag }}"
+          env:
+            - name: MONGO_URI
+              value: "{{ .Values.auth.mongoUri }}"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ticketing.fullname" . }}-auth-srv
+spec:
+  selector:
+    app: auth
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

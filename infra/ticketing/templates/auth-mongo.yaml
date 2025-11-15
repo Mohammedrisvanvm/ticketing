@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-auth-mongo
+  labels:
+    app: auth-mongo
+    {{- include "ticketing.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.authMongo.replicaCount }}
+  selector:
+    matchLabels:
+      app: auth-mongo
+  template:
+    metadata:
+      labels:
+        app: auth-mongo
+        {{- include "ticketing.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: auth-mongo
+          image: "{{ .Values.authMongo.image.repository }}:{{ .Values.authMongo.image.tag }}"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ticketing.fullname" . }}-auth-mongo-srv
+spec:
+  selector:
+    app: auth-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
