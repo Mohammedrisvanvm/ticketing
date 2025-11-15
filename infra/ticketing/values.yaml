@@ -29,6 +29,12 @@ authMongo:
     tag: latest
 
 
+nats:
+  replicaCount: 1
+  image:
+    repository: nats-streaming
+    tag: "0.17.0"
+
 
 tickets:
   replicaCount: 1

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-nats
+  labels:
+    app: nats
+    {{- include "ticketing.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nats.replicaCount }}
+  selector:
+    matchLabels:
+      app: nats
+  template:
+    metadata:
+      labels:
+        app: nats
+        {{- include "ticketing.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: nats
+          image: "{{ .Values.nats.image.repository }}:{{ .Values.nats.image.tag }}"
+          args:
+            - "-p"
+            - "4222"
+            - "-m"
+            - "8222"
+            - "-hbi"
+            - "5s"
+            - "-hbt"
+            - "5s"
+            - "-hbf"
+            - "2"
+            - "-SD"
+            - "-cid"
+            - "ticketing"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ticketing.fullname" . }}-nats-srv
+spec:
+  selector:
+    app: nats
+  ports:
+    - name: client
+      protocol: TCP
+      port: 4222
+      targetPort: 4222
+    - name: monitoring
+      protocol: TCP
+      port: 8222
+      targetPort: 8222
