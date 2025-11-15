@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-expiration
+  labels:
+    app: expiration
+    {{- include "ticketing.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.expiration.replicaCount }}
+  selector:
+    matchLabels:
+      app: expiration
+  template:
+    metadata:
+      labels:
+        app: expiration
+        {{- include "ticketing.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: expiration
+          image: "{{ .Values.expiration.image.repository }}:{{ .Values.expiration.image.tag }}"
+          env:
+            - name: NATS_URL
+              value: nats://{{ include "ticketing.fullname" . }}-nats-srv:4222
+
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
+            - name: REDIS_HOST
+              value: {{ include "ticketing.fullname" . }}-expiration-redis-srv
