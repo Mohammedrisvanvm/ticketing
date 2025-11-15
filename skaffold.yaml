@@ -7,6 +7,9 @@ deploy:
 build:
   local:
     push: false
+  tagPolicy:
+    envTemplate:
+      template: "{{.IMAGE_NAME}}:latest"
   artifacts:
     - image: mohammedrisvanvm/auth
       context: auth
@@ -54,5 +57,15 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: "src/**.*.ts"
+          - src: "**/*.tsx"
+            dest: .
+          - src: "**/*.ts"
+            dest: .
+          - src: "**/*.js"
+            dest: .
+          - src: "**/*.jsx"
+            dest: .
+          - src: "**/*.css"
+            dest: .
+          - src: "**/*.scss"
             dest: .
