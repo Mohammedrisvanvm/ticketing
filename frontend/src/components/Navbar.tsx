@@ -43,7 +43,7 @@ const Navbar = () => {
         />
         <ShoppingCartIcon />
 
-        <Link href="/sign in">sign in</Link>
+        <Link href="/signin">sign in</Link>
       </div>
     </nav>
   );

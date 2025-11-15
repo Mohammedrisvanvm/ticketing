@@ -1,4 +1,5 @@
 import RegisterForm from "@/components/RegisterForm";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
@@ -10,7 +11,18 @@ const page = () => {
         {/* STEPS */}
         <div className="w-full lg:w-7/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8">
           <RegisterForm pageUrl="signup" />
+           <div className="flex justify-center text-center text-sm text-gray-600">
+          {" "}
+          <p>
+            If you have an account, please{" "}
+            <Link href="/signin" className="text-blue-600 underline">
+              click here
+            </Link>
+            .
+          </p>
         </div>
+        </div>
+       
       </div>
     </div>
   );
