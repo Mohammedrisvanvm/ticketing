@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-payments
+  labels:
+    app: payments
+    {{- include "ticketing.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.payments.replicaCount }}
+  selector:
+    matchLabels:
+      app: payments
+  template:
+    metadata:
+      labels:
+        app: payments
+        {{- include "ticketing.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: payments
+          image: "{{ .Values.payments.image.repository }}:{{ .Values.payments.image.tag }}"
+          env:
+            - name: NATS_URL
+              value: nats://{{ include "ticketing.fullname" . }}-nats-srv:4222
+
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
+            - name: MONGO_URI
+              value: mongodb://{{ include "ticketing.fullname" . }}-payments-mongo-srv:27017/payments
+
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+
+            - name: STRIPE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ticketing.fullname" . }}-payments-srv
+spec:
+  selector:
+    app: payments
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000

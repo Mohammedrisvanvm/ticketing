@@ -69,3 +69,10 @@ redis:
   image:
     repository: redis
     tag: latest
+
+payments:
+  image:
+    repository: mohammedrisvanvm/payments
+    tag: latest
+  replicaCount: 1
+
