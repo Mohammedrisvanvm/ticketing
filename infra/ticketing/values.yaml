@@ -7,6 +7,11 @@ tolerations: []
 affinity: {}
 
 
+ingress:
+  enabled: true
+  host: "ticketing.dev"
+
+
 auth:
   replicaCount: 1
 
@@ -24,6 +29,13 @@ authMongo:
     tag: latest
 
 
-ingress:
-  enabled: true
-  host: "ticketing.dev"
+
+tickets:
+  replicaCount: 1
+
+ticketsMongo:
+  replicaCount: 1
+  image:
+    repository: mongo
+    tag: latest
+
