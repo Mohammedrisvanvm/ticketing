@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ticketing.fullname" . }}-orders-mongo
+  labels:
+    app: orders-mongo
+spec:
+  replicas: {{ .Values.ordersMongo.replicaCount }}
+  selector:
+    matchLabels:
+      app: orders-mongo
+  template:
+    metadata:
+      labels:
+        app: orders-mongo
+    spec:
+      containers:
+        - name: orders-mongo
+          image: "{{ .Values.ordersMongo.image.repository }}:{{ .Values.ordersMongo.image.tag }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ticketing.fullname" . }}-orders-mongo-srv
+spec:
+  selector:
+    app: orders-mongo
+  ports:
+    - name: db
+      port: 27017
+      targetPort: 27017

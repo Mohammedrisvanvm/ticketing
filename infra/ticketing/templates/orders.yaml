@@ -1,35 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ticketing.fullname" . }}-tickets
+  name: {{ include "ticketing.fullname" . }}-orders
   labels:
-    app: tickets
+    app: orders
     {{- include "ticketing.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.tickets.replicaCount }}
+  replicas: {{ .Values.orders.replicaCount }}
   selector:
     matchLabels:
-      app: tickets
+      app: orders
   template:
     metadata:
       labels:
-        app: tickets
+        app: orders
         {{- include "ticketing.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: tickets
-          image: "{{ .Values.tickets.image.repository }}:{{ .Values.tickets.image.tag }}"
+        - name: orders
+          image: "{{ .Values.orders.image.repository }}:{{ .Values.orders.image.tag }}"
           env:
             - name: NATS_URL
               value: nats://{{ include "ticketing.fullname" . }}-nats-srv:4222
+
             - name: NATS_CLUSTER_ID
               value: ticketing
+
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+
             - name: MONGO_URI
-              value: mongodb://{{ include "ticketing.fullname" . }}-tickets-mongo-srv:27017/tickets
+              value: mongodb://{{ include "ticketing.fullname" . }}-orders-mongo-srv:27017/orders
+
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -39,10 +43,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ticketing.fullname" . }}-tickets-srv
+  name: {{ include "ticketing.fullname" . }}-orders-srv
 spec:
   selector:
-    app: tickets
+    app: orders
   ports:
     - name: http
       port: 3000

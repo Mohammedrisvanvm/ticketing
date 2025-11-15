@@ -35,9 +35,17 @@ nats:
     repository: nats-streaming
     tag: "0.17.0"
 
+orders:
+  replicaCount: 1
+  image:
+    repository: mohammedrisvanvm/orders
+    tag: latest
 
 tickets:
   replicaCount: 1
+  image:
+    repository: mohammedrisvanvm/tickets
+    tag: latest
 
 ticketsMongo:
   replicaCount: 1
@@ -45,3 +53,8 @@ ticketsMongo:
     repository: mongo
     tag: latest
 
+ordersMongo:
+  replicaCount: 1
+  image:
+    repository: mongo
+    tag: latest
