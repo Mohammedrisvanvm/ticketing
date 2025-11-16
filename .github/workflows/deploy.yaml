@@ -1,0 +1,60 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set Docker image tag (short SHA)
+        id: vars
+        run: echo "TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      # AUTH SERVICE
+      - name: Build Auth image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/auth:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/auth:latest ./auth
+      - name: Push Auth image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/auth --all-tags
+
+      # TICKETS SERVICE
+      - name: Build Tickets image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/tickets:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/tickets:latest ./tickets
+      - name: Push Tickets image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/tickets --all-tags
+
+      # ORDERS SERVICE
+      - name: Build Orders image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/orders:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/orders:latest ./orders
+      - name: Push Orders image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/orders --all-tags
+
+      # EXPIRATION SERVICE
+      - name: Build Expiration image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/expiration:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/expiration:latest ./expiration
+      - name: Push Expiration image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/expiration --all-tags
+
+      # PAYMENTS SERVICE
+      - name: Build Payments image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/payments:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/payments:latest ./payments
+      - name: Push Payments image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/payments --all-tags
+
+      # FRONTEND
+      - name: Build Frontend image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend:${TAG} -t ${{ secrets.DOCKER_USERNAME }}/frontend:latest ./frontend
+      - name: Push Frontend image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/frontend --all-tags
