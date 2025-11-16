@@ -16,6 +16,24 @@ spec:
         app: expiration
         {{- include "ticketing.labels" . | nindent 8 }}
     spec:
+
+      # -----------------------------
+      # WAIT FOR REDIS BEFORE STARTING
+      # -----------------------------
+      initContainers:
+        - name: wait-for-redis
+          image: busybox
+          command:
+            - sh
+            - "-c"
+            - |
+              echo "Waiting for Redis..."
+              until nc -z {{ include "ticketing.fullname" . }}-expiration-redis-srv 6379; do
+                echo "Redis not ready, sleeping..."
+                sleep 1
+              done
+              echo "Redis is up!"
+
       containers:
         - name: expiration
           image: "{{ .Values.expiration.image.repository }}:{{ .Values.expiration.image.tag }}"
