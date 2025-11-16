@@ -26,8 +26,6 @@ const worker = new Worker<Payload>(
     await new ExpirationCompletePublisher(natsWrapper.client).publish({
       orderId: job.data.orderId,
     });
-
-    console.log("Expiration job completed:", job.data.orderId);
   },
   { connection }
 );
