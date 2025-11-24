@@ -81,3 +81,23 @@ frontend:
     repository: mohammedrisvanvm/frontend
     tag: latest
   replicaCount: 1
+
+
+kubecostToken: "local-cost"
+
+global:
+  clusterId: "local-cluster"
+  annotations:
+    cluster_id: "local-cluster"
+  persistence:
+    enabled: false
+
+prometheus:
+  server:
+    persistentVolume:
+      enabled: false
+
+costModel:
+  defaultCpuPrice: 0.05
+  defaultRamPrice: 0.001
+  defaultStoragePrice: 0.0001

@@ -51,3 +51,10 @@ spec:
 
             - name: REDIS_HOST
               value: {{ include "ticketing.fullname" . }}-expiration-redis-srv
+      resources:
+            requests:
+              cpu: "150m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"

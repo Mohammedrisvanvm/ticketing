@@ -19,6 +19,13 @@ spec:
       containers:
         - name: auth-mongo
           image: "{{ .Values.authMongo.image.repository }}:{{ .Values.authMongo.image.tag }}"
+      resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
 
 ---
 apiVersion: v1
