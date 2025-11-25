@@ -34,13 +34,8 @@ spec:
               port: 6379
             initialDelaySeconds: 5
             periodSeconds: 5
-      resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "300m"
-              memory: "512Mi"
+          resources:
+      {{- toYaml .Values.redis.resources | nindent 12 }}
 ---
 apiVersion: v1
 kind: Service

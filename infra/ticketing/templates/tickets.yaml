@@ -35,13 +35,10 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
-      resources:
-            requests:
-              cpu: "150m"
-              memory: "256Mi"
-            limits:
-              cpu: "400m"
-              memory: "512Mi"
+
+          resources:
+            {{- toYaml .Values.tickets.resources | nindent 12 }}
+
 ---
 apiVersion: v1
 kind: Service
