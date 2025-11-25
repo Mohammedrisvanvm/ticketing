@@ -51,5 +51,3 @@ spec:
 
             - name: REDIS_HOST
               value: {{ include "ticketing.fullname" . }}-expiration-redis-srv
-          resources:
-      {{- toYaml .Values.expiration.resources | nindent 12 }}

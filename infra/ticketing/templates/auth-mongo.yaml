@@ -19,8 +19,6 @@ spec:
       containers:
         - name: auth-mongo
           image: "{{ .Values.authMongo.image.repository }}:{{ .Values.authMongo.image.tag }}"
-          resources:
-            {{- toYaml .Values.authMongo.resources | nindent 12 }}
 
 ---
 apiVersion: v1

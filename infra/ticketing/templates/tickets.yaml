@@ -35,10 +35,6 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
-
-          resources:
-            {{- toYaml .Values.tickets.resources | nindent 12 }}
-
 ---
 apiVersion: v1
 kind: Service

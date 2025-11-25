@@ -17,8 +17,6 @@ spec:
       containers:
         - name: orders-mongo
           image: "{{ .Values.ordersMongo.image.repository }}:{{ .Values.ordersMongo.image.tag }}"
-          resources:
-      {{- toYaml .Values.ordersMongo.resources | nindent 12 }}
 ---
 apiVersion: v1
 kind: Service

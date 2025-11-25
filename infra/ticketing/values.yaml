@@ -1,168 +1,87 @@
+
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
 
+
 ingress:
   enabled: true
   host: "ticketing.dev"
 
+
 auth:
   replicaCount: 1
+
   image:
     repository: mohammedrisvanvm/auth
     tag: latest
+
   mongoUri: "mongodb://ticketing-auth-mongo-srv:27017/auth"
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-    limits:
-      cpu: "300m"
-      memory: "256Mi"
 
 authMongo:
   replicaCount: 1
+
   image:
     repository: mongo
     tag: latest
-  resources:
-    requests:
-      cpu: "250m"
-      memory: "512Mi"
-    limits:
-      cpu: "500m"
-      memory: "1Gi"
+
 
 nats:
   replicaCount: 1
   image:
     repository: nats-streaming
     tag: "0.17.0"
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-    limits:
-      cpu: "300m"
-      memory: "512Mi"
 
 orders:
   replicaCount: 1
   image:
     repository: mohammedrisvanvm/orders
     tag: latest
-  resources:
-    requests:
-      cpu: "150m"
-      memory: "256Mi"
-    limits:
-      cpu: "400m"
-      memory: "512Mi"
 
 tickets:
   replicaCount: 1
   image:
     repository: mohammedrisvanvm/tickets
     tag: latest
-  resources:
-    requests:
-      cpu: "150m"
-      memory: "256Mi"
-    limits:
-      cpu: "400m"
-      memory: "512Mi"
 
 ticketsMongo:
   replicaCount: 1
   image:
     repository: mongo
     tag: latest
-  resources:
-    requests:
-      cpu: "250m"
-      memory: "512Mi"
-    limits:
-      cpu: "500m"
-      memory: "1Gi"
 
 ordersMongo:
   replicaCount: 1
   image:
     repository: mongo
     tag: latest
-  resources:
-    requests:
-      cpu: "250m"
-      memory: "512Mi"
-    limits:
-      cpu: "500m"
-      memory: "1Gi"
 
 expiration:
   image:
     repository: mohammedrisvanvm/expiration
     tag: latest
   replicaCount: 1
-  resources:
-    requests:
-      cpu: "150m"
-      memory: "128Mi"
-    limits:
-      cpu: "300m"
-      memory: "256Mi"
 
 redis:
   image:
     repository: redis
     tag: latest
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-    limits:
-      cpu: "300m"
-      memory: "512Mi"
 
 payments:
   image:
     repository: mohammedrisvanvm/payments
     tag: latest
   replicaCount: 1
-  resources:
-    requests:
-      cpu: "200m"
-      memory: "256Mi"
-    limits:
-      cpu: "500m"
-      memory: "512Mi"
-
-paymentsMongo:
-  replicaCount: 1
-  image:
-    repository: mongo
-    tag: latest
-  resources:
-    requests:
-      cpu: "250m"
-      memory: "512Mi"
-    limits:
-      cpu: "500m"
-      memory: "1Gi"
 
 frontend:
   image:
     repository: mohammedrisvanvm/frontend
     tag: latest
   replicaCount: 1
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "256Mi"
-    limits:
-      cpu: "300m"
-      memory: "512Mi"
+
 
 kubecostToken: "local-cost"
 
@@ -181,4 +100,3 @@ prometheus:
 costModel:
   defaultCpuPrice: 0.05
   defaultRamPrice: 0.001
-  defaultStoragePrice: 0.0001

@@ -19,8 +19,6 @@ spec:
       containers:
         - name: tickets-mongo
           image: "{{ .Values.ticketsMongo.image.repository }}:{{ .Values.ticketsMongo.image.tag }}"
-          resources:
-      {{- toYaml .Values.ticketsMongo.resources | nindent 12 }}
 
 ---
 apiVersion: v1
